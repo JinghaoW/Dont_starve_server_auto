@@ -17,6 +17,10 @@ def install_steamcmd(path):
         install_dir = Path(path)
         install_dir.mkdir(parents=True, exist_ok=True)
 
+        # Skip download and extraction if steamcmd is already installed
+        if any((install_dir / f).exists() for f in ["steamcmd.exe", "steamcmd.sh"]):
+            return True
+
         zip_path = install_dir / "steamcmd.zip"
         if not zip_path.exists():
             urlretrieve(STEAMCMD_URL, zip_path)
@@ -74,7 +78,7 @@ def modify_launch_script(server_path):
             shutil.copy2(bat_path, backup_path)
 
         # 读取原始内容
-        with open(bat_path, 'r') as f:
+        with open(bat_path, 'r', encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
 
         # 保留头部配置
@@ -95,7 +99,7 @@ def modify_launch_script(server_path):
         ]
 
         # 写入文件
-        with open(bat_path, 'w') as f:
+        with open(bat_path, 'w', encoding='utf-8') as f:
             f.writelines(new_content)
 
         # 验证修改
@@ -122,7 +126,7 @@ def verify_bat_modification(bat_path):
     ]
 
     try:
-        with open(bat_path, 'r') as f:
+        with open(bat_path, 'r', encoding='utf-8', errors='replace') as f:
             content = f.read()
 
         missing = [p for p in required_patterns if not re.search(p, content, re.M)]

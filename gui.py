@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from config import load_config, save_config
-from environment import check_steamcmd, check_server, check_cluster,check_mods_directory
-from installer import install_steamcmd, install_server,copy_mods
+from environment import check_steamcmd, check_server, check_cluster, check_mods_directory
+from installer import install_steamcmd, install_server, copy_mods
 from launcher import launch_server
 
 class PathSelector(ttk.Frame):

@@ -1,5 +1,4 @@
 import json
-import os
 from pathlib import Path
 
 CONFIG_FILE = "dst_tool_config.json"
@@ -13,11 +12,15 @@ DEFAULT_PATHS = {
 
 def load_config():
     try:
-        with open(CONFIG_FILE, 'r') as f:
-            return json.load(f)
+        with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+            loaded = json.load(f)
+        # Merge with defaults so missing keys fall back to their default values
+        config = dict(DEFAULT_PATHS)
+        config.update(loaded)
+        return config
     except (FileNotFoundError, json.JSONDecodeError):
-        return DEFAULT_PATHS
+        return dict(DEFAULT_PATHS)
 
 def save_config(config):
-    with open(CONFIG_FILE, 'w') as f:
+    with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
         json.dump(config, f, indent=2)
