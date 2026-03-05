@@ -1,0 +1,16 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Build output
+dist/
+build/
+*.spec.bak
+
+# Config generated at runtime
+dst_tool_config.json
+
+# IDE
+.idea/
+*.iml
